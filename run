@@ -1,0 +1,35 @@
+#! /bin/bash
+
+function install {
+  echo "install task not implemented"
+}
+
+function build {
+  echo "build task not implemented"
+}
+
+function start {
+  echo "start task not implemented"
+}
+
+function help {
+  echo "Usage:"
+  echo "$0 <task> <args>"
+  echo ""
+  echo "Tasks:"
+  # functions beginning with an underscore are considered private.
+  compgen -A function | grep -v "^_" | cat -n
+}
+
+function _run_task {
+  TIMEFORMAT="Completed in %3lR"
+  if declare -F "$1" > /dev/null; then
+    time "$@"
+  else
+    echo "Function '$1' not found."
+    echo ""
+    help
+  fi
+}
+
+_run_task "${@:-help}"
